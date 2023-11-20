@@ -22,20 +22,18 @@ class bolas:
         elif self.coordY < 0 or self.coordY > altura:
             self.speedY *= -1 #mudei a direção da velocidade, que soma com a coordenada 
     def colisoes(self, other_ball):
-        if self.coordX == other_ball.coordX: #se as duas bolas estiverem na msm coordenada do eixo x
-            print("Bateu eixo x")
-        if self.coordY == other_ball.coordY:
-            print("Bateu eixo y")  
+        if self.coordX == other_ball.coordX or self.coordY == other_ball.coordY: #se as duas bolas estiverem na msm coordenada do eixo x
+            print(self.coordX, other_ball.coordY)
+            self.speedX = 0
+            self.speedY = 0
+
          
 running = True
 
 
 n_bolas = 3
 raio = 10
-lista_bolas = []
-
-
-blue = (0,0,255)
+lista_bolas = []   
 clock = py.time.Clock()
 for i in range(n_bolas):
     posX = random.randint(0,largura - raio)
@@ -43,6 +41,7 @@ for i in range(n_bolas):
     lista_bolas.append(bolas(posX,posY,i*2,5,raio))
     posY += 30
     posX += 20
+    cor = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 #print(lista_bolas)
 
@@ -57,9 +56,9 @@ while running:
     for i, ball in enumerate(lista_bolas): 
         ball.move()
         ball.limite_wall()
-        for other_ball in lista_bolas[:i]:
+        for other_ball in lista_bolas[:i] :
             ball.colisoes(other_ball)
-        py.draw.circle(screen, blue, (ball.coordX, ball.coordY), ball.raio)
+        py.draw.circle(screen, cor, (ball.coordX, ball.coordY), ball.raio)
         
 
 
