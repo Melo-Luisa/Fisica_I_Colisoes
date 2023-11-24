@@ -21,29 +21,17 @@ class bolas:
             self.speedX *= -1
         elif self.coordY < 0 or self.coordY > altura:
             self.speedY *= -1 #mudei a direção da velocidade, que soma com a coordenada 
-    # def calc_distancia(self, ball): 
-    #     #calcular a distancia = {sqrt[(x2-x1)**2]+[(y2-y1)**2]}
-    #     x, y = ball.coordX, ball.coordY
-    #     x2, y2 = ball.coordY, ball.coordX
-
-    #     self.distancia = math.sqrt((x2 - x)**2 + (y2 - y)**2)
-    def colisao(self, outra_bola):
+    def colisao(self, outra_bola): #colisoes
         distancia = math.sqrt((outra_bola.coordX - self.coordX)**2 + (outra_bola.coordY - self.coordY)**2)
         if distancia < (self.raio + outra_bola.raio):
-            print('Colisão entre bolas!', self.coordX, self.coordY)   
-
+            self.speedX *= -1
+            self.speedY *= -1  
         return distancia 
 
-            
-  #distancia era menor do que a soma dos dois raios
-        #o que fazer
-        #pegar posicao da bolinha [i] com posicao de[i+1] e somar
-        #se a distancia < que raio[i] + raio[i+1]:
-        #print('colisão')
          
 running = True
 
-n_bolas = 3
+n_bolas = 5
 raio = 10
 lista_bolas = []
 distancia = []   
@@ -75,7 +63,6 @@ while running:
             if i != j:  # Evitar verificar a colisão da bola consigo mesma
                 ball.colisao(lista_bolas[j])
         py.draw.circle(screen, cor, (ball.coordX, ball.coordY), ball.raio)
-    #print(distancia_balls)
 
     py.display.update()
 py.quit()
