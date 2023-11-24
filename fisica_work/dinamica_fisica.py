@@ -21,17 +21,22 @@ class bolas:
             self.speedX *= -1
         elif self.coordY < 0 or self.coordY > altura:
             self.speedY *= -1 #mudei a direção da velocidade, que soma com a coordenada 
-    def colisoes(self, other_ball):
-        if self.coordX == other_ball.coordX or self.coordY == other_ball.coordY: #se as duas bolas estiverem na msm coordenada do eixo x
-            print(self.coordX, other_ball.coordY)
-            self.speedX = 0
-            self.speedY = 0
+    def distancia(self, lista_bolas): 
+        #distancia era menor do que a soma dos dois raios
+        #o que fazer
+        #pegar posicao da bolinha [i] com posicao de[i+1] e somar
+        #se a distancia < que raio[i] + raio[i+1]:
+        #print('colisão')
+        pass
+        
+            
 
          
 running = True
 
 
-n_bolas = 3
+n_bolas = 6
+
 raio = 10
 lista_bolas = []   
 clock = py.time.Clock()
@@ -53,15 +58,11 @@ while running:
             running = False
     #screen.fill(0,0,0)
 
-    for i, ball in enumerate(lista_bolas): 
+    for ball in lista_bolas: 
         ball.move()
         ball.limite_wall()
-        for other_ball in lista_bolas[:i] :
-            ball.colisoes(other_ball)
         py.draw.circle(screen, cor, (ball.coordX, ball.coordY), ball.raio)
         
-
-
 
     py.display.update()
 py.quit()
