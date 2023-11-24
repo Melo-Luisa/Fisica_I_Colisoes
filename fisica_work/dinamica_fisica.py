@@ -1,5 +1,5 @@
 import pygame as py
-import random, time
+import random, time, math
 py.init() 
   
 largura = 800
@@ -21,24 +21,32 @@ class bolas:
             self.speedX *= -1
         elif self.coordY < 0 or self.coordY > altura:
             self.speedY *= -1 #mudei a direção da velocidade, que soma com a coordenada 
-    def distancia(self, lista_bolas): 
-        #distancia era menor do que a soma dos dois raios
+    # def calc_distancia(self, ball): 
+    #     #calcular a distancia = {sqrt[(x2-x1)**2]+[(y2-y1)**2]}
+    #     x, y = ball.coordX, ball.coordY
+    #     x2, y2 = ball.coordY, ball.coordX
+
+    #     self.distancia = math.sqrt((x2 - x)**2 + (y2 - y)**2)
+    def colisao(self, outra_bola):
+        distancia = math.sqrt((outra_bola.coordX - self.coordX)**2 + (outra_bola.coordY - self.coordY)**2)
+        if distancia < (self.raio + outra_bola.raio):
+            print('Colisão entre bolas!', self.coordX, self.coordY)   
+
+        return distancia 
+
+            
+  #distancia era menor do que a soma dos dois raios
         #o que fazer
         #pegar posicao da bolinha [i] com posicao de[i+1] e somar
         #se a distancia < que raio[i] + raio[i+1]:
         #print('colisão')
-        pass
-        
-            
-
          
 running = True
 
-
-n_bolas = 6
-
+n_bolas = 3
 raio = 10
-lista_bolas = []   
+lista_bolas = []
+distancia = []   
 clock = py.time.Clock()
 for i in range(n_bolas):
     posX = random.randint(0,largura - raio)
@@ -46,7 +54,7 @@ for i in range(n_bolas):
     lista_bolas.append(bolas(posX,posY,i*2,5,raio))
     posY += 30
     posX += 20
-    cor = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    cor = (255,45,215)
 
 #print(lista_bolas)
 
@@ -56,13 +64,18 @@ while running:
     for event in py.event.get(): 
         if event.type == py.QUIT: 
             running = False
-    #screen.fill(0,0,0)
 
-    for ball in lista_bolas: 
-        ball.move()
-        ball.limite_wall()
+    for i, ball in enumerate(lista_bolas): 
+        ball.move() #move
+        ball.limite_wall() #limitador de bolinhas
+        for j in range(n_bolas):
+            #distancia_balls = ball.calc_distancia(lista_bolas[j]) #função que calcula a distancia das bolinhas
+            #distancia.append(distancia_balls) # lista
+            #ball.colisao(distancia_balls)
+            if i != j:  # Evitar verificar a colisão da bola consigo mesma
+                ball.colisao(lista_bolas[j])
         py.draw.circle(screen, cor, (ball.coordX, ball.coordY), ball.raio)
-        
+    #print(distancia_balls)
 
     py.display.update()
 py.quit()
