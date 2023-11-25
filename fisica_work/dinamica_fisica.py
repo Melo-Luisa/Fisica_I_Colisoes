@@ -22,16 +22,23 @@ class bolas:
         elif self.coordY < 0 or self.coordY > altura:
             self.speedY *= -1 #mudei a direção da velocidade, que soma com a coordenada 
     def colisao(self, outra_bola): #colisoes
+        #fisica
+        #pX = massa * self.speedX
+        #pY = massa * self.speedY
         distancia = math.sqrt((outra_bola.coordX - self.coordX)**2 + (outra_bola.coordY - self.coordY)**2)
         if distancia < (self.raio + outra_bola.raio):
             self.speedX *= -1
             self.speedY *= -1  
         return distancia 
 
-         
+#CENTRO DE MASSA
+#M = m2+m1
+#xcm = ((m1*x1) + (m2*x2)/M)*d
+
+
 running = True
 
-n_bolas = 5
+n_bolas = 7
 raio = 10
 lista_bolas = []
 distancia = []   
@@ -39,7 +46,7 @@ clock = py.time.Clock()
 for i in range(n_bolas):
     posX = random.randint(0,largura - raio)
     posY = random.randint(0,altura)
-    lista_bolas.append(bolas(posX,posY,i*2,5,raio))
+    lista_bolas.append(bolas(posX,posY,i*1.5,5,raio))
     posY += 30
     posX += 20
     cor = (255,45,215)
