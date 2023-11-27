@@ -2,9 +2,10 @@ import pygame as py
 import random, time, math
 py.init() 
   
-largura = 800
-altura = 600
-screen = py.display.set_mode((largura, altura)) 
+largura = 800 #x
+altura = 450 #y
+screen = py.display.set_mode((largura, 650)) 
+py.display.set_caption("Colisões - Física")
 
 class bolas:
     def __init__(self,coordX, coordY, speedX, speedY, raio):
@@ -29,12 +30,16 @@ class bolas:
             self.speedY *= -1  
         return distancia 
 
-#CENTRO DE MASSA
-#M = m2+m1
-#xcm = ((m1*x1) + (m2*x2)/M)*d
 
 
 running = True
+
+font = py.font.Font(None, 36)  # None uses the default font
+velocidade = font.render("Velocidade:", True, (255, 255, 255))  # Text, antialias, color
+coordenadas_X = font.render("X:", True, (255, 255, 255))
+coordenadas_Y = font.render("Y:", True, (255, 255, 255))
+
+
 
 n_bolas = 7
 raio = 10
@@ -54,13 +59,14 @@ for i in range(n_bolas):
 while running: 
     clock.tick(60)
     screen.fill((0, 0, 0))
+    screen.blit(velocidade, (50, 500))
+    screen.blit(coordenadas_X, (50, 550))
+    screen.blit(coordenadas_Y, (50, 600))
     for event in py.event.get(): 
         if event.type == py.QUIT: 
             running = False
 
     for i, ball in enumerate(lista_bolas): 
-        
-       
         for j in range(n_bolas):
             if i != j:  # Evitar verificar a colisão da bola consigo mesma
                 ball.colisao(lista_bolas[j])
@@ -70,7 +76,3 @@ while running:
 
     py.display.update()
 py.quit()
-
-
-
-
