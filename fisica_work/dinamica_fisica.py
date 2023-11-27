@@ -22,9 +22,7 @@ class bolas:
         elif self.coordY < 0 or self.coordY > altura:
             self.speedY *= -1 #mudei a direção da velocidade, que soma com a coordenada 
     def colisao(self, outra_bola): #colisoes
-        #fisica
-        #pX = massa * self.speedX
-        #pY = massa * self.speedY
+
         distancia = math.sqrt((outra_bola.coordX - self.coordX)**2 + (outra_bola.coordY - self.coordY)**2)
         if distancia < (self.raio + outra_bola.raio):
             self.speedX *= -1
@@ -44,8 +42,8 @@ lista_bolas = []
 distancia = []   
 clock = py.time.Clock()
 for i in range(n_bolas):
-    posX = random.randint(0,largura - raio)
-    posY = random.randint(0,altura)
+    posX = random.randint(raio,largura-raio)
+    posY = random.randint(raio,altura-raio)
     lista_bolas.append(bolas(posX,posY,i*1.5,5,raio))
     posY += 30
     posX += 20
@@ -61,14 +59,13 @@ while running:
             running = False
 
     for i, ball in enumerate(lista_bolas): 
-        ball.move() #move
-        ball.limite_wall() #limitador de bolinhas
+        
+       
         for j in range(n_bolas):
-            #distancia_balls = ball.calc_distancia(lista_bolas[j]) #função que calcula a distancia das bolinhas
-            #distancia.append(distancia_balls) # lista
-            #ball.colisao(distancia_balls)
             if i != j:  # Evitar verificar a colisão da bola consigo mesma
                 ball.colisao(lista_bolas[j])
+        ball.move() #move
+        ball.limite_wall() #limitador de bolinhas
         py.draw.circle(screen, cor, (ball.coordX, ball.coordY), ball.raio)
 
     py.display.update()
