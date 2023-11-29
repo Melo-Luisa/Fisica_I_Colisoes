@@ -34,11 +34,6 @@ class bolas:
 
 running = True
 
-font = py.font.Font(None, 36)  # None uses the default font
-velocidade = font.render("Velocidade:", True, (255, 255, 255))  # Text, antialias, color
-coordenadas_X = font.render("X:", True, (255, 255, 255))
-coordenadas_Y = font.render("Y:", True, (255, 255, 255))
-
 
 
 n_bolas = 7
@@ -54,13 +49,18 @@ for i in range(n_bolas):
     posX += 20
     cor = (255,45,215)
 
-#print(lista_bolas)
+font = py.font.Font(None, 36) 
+velocidade = font.render("Velocidade: ", True, (255, 255, 255))  # Text, antialias, color
+coordenadas_X = font.render(f'X: {posX}', True, (255, 255, 255))
+coordenadas_Y = font.render("Y:", True, (255, 255, 255))
 
 while running: 
     clock.tick(60)
     screen.fill((0, 0, 0))
+
+    
     screen.blit(velocidade, (50, 500))
-    screen.blit(coordenadas_X, (50, 550))
+    
     screen.blit(coordenadas_Y, (50, 600))
     for event in py.event.get(): 
         if event.type == py.QUIT: 
@@ -72,6 +72,7 @@ while running:
                 ball.colisao(lista_bolas[j])
         ball.move() #move
         ball.limite_wall() #limitador de bolinhas
+        screen.blit(coordenadas_X, (50, 550))
         py.draw.circle(screen, cor, (ball.coordX, ball.coordY), ball.raio)
 
     py.display.update()
